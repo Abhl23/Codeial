@@ -6,6 +6,12 @@ const port=8000;
 const expressLayouts=require('express-ejs-layouts');
 app.use(expressLayouts);
 
+// extract styles and scripts from subpages into the layout
+app.set('layout extractStyles', true);
+app.set('layout extractScripts', true);
+
+app.use(express.static('./assets'));
+
 // use the express router
 app.use('/', require('./routes'));
 
