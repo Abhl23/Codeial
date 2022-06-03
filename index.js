@@ -1,7 +1,12 @@
 const express=require('express');
+const cookieParser=require('cookie-parser');
+const bodyParser=require('body-parser');
 const app=express();
 const port=8000;
 const db=require('./config/mongoose');
+
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(cookieParser());
 
 // require the layouts library
 const expressLayouts=require('express-ejs-layouts');
