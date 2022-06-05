@@ -57,5 +57,17 @@ module.exports.create=function(req, res){
 
 // sign in and create a session for the user
 module.exports.createSession=function(req, res){
-    return res.redirect('/');
+    return res.redirect('/users/profile');
 };
+
+// sign out and delete the user's session
+module.exports.destroySession=function(req, res){
+    req.logout(function(err){
+        if(err){
+            console.log('Error in signing out');
+            return;
+        }
+
+        return res.redirect('/');
+    });
+}
