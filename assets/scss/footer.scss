@@ -1,0 +1,33 @@
+footer{
+    width: inherit;
+    height: 4rem;
+    background-color: #898f8a;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+    h4{
+        color: white;
+        font-family: sans-serif;
+
+        span{
+            margin-right: 0.5rem;
+        }
+    }
+
+    #nav-links{
+        margin-left: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        a{
+            margin: 2px;
+            font: {
+                size: 1.1rem;
+                weight: 500;
+            }
+        }
+    }
+}

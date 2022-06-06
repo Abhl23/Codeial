@@ -1,4 +1,11 @@
-body{
-    margin: 0;
-    /* text-align: center; */
-}
+body {
+  margin: 0;
+  /* text-align: center; */ }
+  body #layout-main {
+    height: 100%; }
+
+a {
+  text-decoration: none;
+  color: white; }
+  a:hover {
+    color: white; }
