@@ -4,7 +4,8 @@ footer {
   background-color: #898f8a;
   display: flex;
   justify-content: start;
-  align-items: center; }
+  align-items: center;
+  padding: 4px 8px; }
   footer h4 {
     color: white;
     font-family: sans-serif; }
