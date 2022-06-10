@@ -18,7 +18,7 @@ module.exports.create=function(req, res){
                     console.log('Error in creating a comment in the db');
                     return;
                 }
-                // updating the post collection
+                // updating the post collections' document
                 // will automatically insert the comment id in the comments array of post
                 post.comments.push(comment);
                 post.save();
@@ -26,5 +26,24 @@ module.exports.create=function(req, res){
                 return res.redirect('/');
             });
         }
+    });
+};
+
+module.exports.destroy=function(req, res){
+    Comment.findById(req.params.id, function(err, comment){
+        let postId=comment.post;
+        Post.findById(postId, function(err, post){
+            if(comment.user == req.user.id || post.user == req.user.id){
+
+                comment.remove();
+    
+                Post.findByIdAndUpdate(postId, { $pull : {comment : req.params.id}}, function(err, post){
+                    return res.redirect('back');
+                });
+            }
+            else{
+                return res.redirect('back');
+            }
+        });
     });
 };
