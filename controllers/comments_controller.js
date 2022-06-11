@@ -36,8 +36,8 @@ module.exports.destroy=function(req, res){
             if(comment.user == req.user.id || post.user == req.user.id){
 
                 comment.remove();
-    
-                Post.findByIdAndUpdate(postId, { $pull : {comment : req.params.id}}, function(err, post){
+                // deleting the comment id from the comments array in post
+                Post.findByIdAndUpdate(postId, { $pull : {comments : req.params.id}}, function(err, post){
                     return res.redirect('back');
                 });
             }
