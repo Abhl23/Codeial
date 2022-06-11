@@ -24,10 +24,16 @@ footer{
         align-items: center;
 
         a{
+            color: white;
+            text-decoration: none;
             margin: 2px;
             font: {
                 size: 1.1rem;
                 weight: 500;
+            }
+
+            &:hover{
+                color: white;
             }
         }
     }

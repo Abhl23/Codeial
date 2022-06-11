@@ -18,10 +18,16 @@ header{
         align-items: center;
         
         a{
+            color: white;
+            text-decoration: none;
             margin-left: 1rem;
             font: {
                 size: 1.1rem;
                 weight: 500;
+            }
+
+            &:hover{
+                color: white;
             }
         }
     }

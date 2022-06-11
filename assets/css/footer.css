@@ -18,6 +18,10 @@ footer {
     justify-content: center;
     align-items: center; }
     footer #nav-links a {
+      color: white;
+      text-decoration: none;
       margin: 2px;
       font-size: 1.1rem;
       font-weight: 500; }
+      footer #nav-links a:hover {
+        color: white; }

@@ -1,4 +1,5 @@
 const Post=require('../models/post');
+const User=require('../models/user');
 
 module.exports.home=function(req, res){
     // populate the user and comments of each post
@@ -11,14 +12,18 @@ module.exports.home=function(req, res){
         }
     })
     .exec(function(err, posts){
+
         if(err){
             console.log('Error in fetching posts from the database');
             return;
         }
 
-        return res.render('home', {
-            title : 'Home',
-            posts : posts
+        User.find({}, function(err, users){
+            return res.render('home', {
+                title : 'Home',
+                posts : posts,
+                users : users
+            });
         });
     });        
 };
