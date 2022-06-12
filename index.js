@@ -4,6 +4,8 @@ const bodyParser=require('body-parser');
 const app=express();
 const port=8000;
 const db=require('./config/mongoose');
+const flash=require('connect-flash');
+const customMware=require('./config/middleware');
 
 const sassMiddleware=require('node-sass-middleware');
 
@@ -62,6 +64,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);
+
+app.use(flash());
+app.use(customMware.setFlash);
 
 // use the express router
 app.use('/', require('./routes'));
