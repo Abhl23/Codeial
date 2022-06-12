@@ -14,6 +14,7 @@ module.exports.profile=function(req, res){
 module.exports.update=function(req, res){
     if(req.user.id == req.params.id){
         User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+            req.flash('success', 'Profile updated!');
             return res.redirect('back');
         });
     }
@@ -52,22 +53,25 @@ module.exports.create=function(req, res){
         return res.redirect('back');
     User.findOne({email: req.body.email}, function(err, user){
         if(err){
-            console.log('Error in finding user while signing up');
-            return;
+            req.flash('error', err);
+            return res.redirect('back');
         }
 
         if(!user){
             User.create(req.body, function(err, user){
                 if(err){
-                    console.log('Error in creating user while signing up');
-                    return;
+                    req.flash('error', err);
+                    return res.redirect('back');
                 }
 
+                req.flash('success', 'Account created!');
                 return res.redirect('/users/sign-in');
             });
         }
-        else
+        else{
+            req.flash('error', 'Account already exists!');
             return res.redirect('back');
+        }
     })
 };
 
@@ -81,8 +85,8 @@ module.exports.createSession=function(req, res){
 module.exports.destroySession=function(req, res){
     req.logout(function(err){
         if(err){
-            console.log('Error in signing out');
-            return;
+            req.flash('error', err);
+            return res.redirect('back');
         }
 
         req.flash('success', 'You have Logged out!');   
