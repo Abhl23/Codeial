@@ -5,10 +5,10 @@ module.exports.home=async function(req, res){
 
     try{
         let posts=await Post.find({})
-        .populate('user')
+        .populate('user')                   // populate the user and comments of each post
         .populate({
             path : 'comments',
-            populate : {
+            populate : {                    // further populating the user of every comment i.e Nested populating
                 path : 'user'
             }
         });
