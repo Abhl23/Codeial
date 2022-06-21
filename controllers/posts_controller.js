@@ -14,7 +14,7 @@ module.exports.create=async function(req, res){
                 data : {
                     post : post
                 },
-                message : 'Post created!'
+                message : 'Post published!'
             });
         }
     
@@ -41,7 +41,7 @@ module.exports.destroy=async function(req, res){
                     data : {
                         post_id : req.params.id
                     },
-                    message : 'Post deleted!'
+                    message : 'Post and the comments associated deleted!'
                 });
             }
 

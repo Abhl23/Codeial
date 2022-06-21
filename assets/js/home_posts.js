@@ -2,13 +2,27 @@
     // console.log('Script loaded!');
 
 
+    // method to display notifications using Noty
+    function displayNoty(type, message){
+        $(`<script>
+                new Noty({
+                    theme : 'relax',
+                    layout : 'topRight',
+                    text : '${message}',
+                    type : '${type}',
+                    timeout : 1500
+                }).show();        
+            </script>`).appendTo('body');
+    }
+
+
     // method to submit the form data for new post using ajax
     let createPost=function(){
         let newPostForm=$('#new-post-form');
 
         newPostForm.submit(function(event){
             event.preventDefault();
-            console.log('here', JSON.stringify(newPostForm));
+            
             $.ajax({
                 method : 'post',
                 url : '/posts/create',
@@ -18,9 +32,11 @@
                     let newPost=newPostDOM(data.data.post);
                     $('#posts-list-container>ul').prepend(newPost);
                     deletePost($(' .delete-post-button', newPost));
+                    displayNoty('success', data.message);
                 },
                 error : function(error){
                     console.log(error.responseText);
+                    displayNoty('error', error.responseText);
                 }
             });
         });
@@ -67,13 +83,20 @@
                 url : deleteLink.attr('href'),
                 success : function(data){
                     $(`#post-${data.data.post_id}`).remove();
+                    displayNoty('success', data.message);
                 },
                 error : function(error){
                     console.log(error.responseText);
+                    displayNoty('error', error.responseText);
                 }
             });
         });
     }
+
+    // adding deletePost method to every delete button
+    $('.delete-post-button').each(function(){
+        deletePost($(this));
+    });
 
     createPost();
 }
