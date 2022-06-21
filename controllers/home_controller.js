@@ -12,7 +12,8 @@ module.exports.home=async function(req, res){
             populate : {                    // further populating the user of every comment i.e Nested populating
                 path : 'user'
             }
-        });
+        }).sort('-createdAt');
+
 
         let users=await User.find({});
 

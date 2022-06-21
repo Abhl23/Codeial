@@ -4,6 +4,9 @@
 
     // method to display notifications using Noty
     function displayNoty(type, message){
+
+        $('#noty').remove();
+
         $(`<script>
                 new Noty({
                     theme : 'relax',
@@ -12,7 +15,7 @@
                     type : '${type}',
                     timeout : 1500
                 }).show();        
-            </script>`).appendTo('body');
+            </script>`).attr('id', 'noty').appendTo('body');
     }
 
 
@@ -22,17 +25,18 @@
 
         newPostForm.submit(function(event){
             event.preventDefault();
-            
+
             $.ajax({
                 method : 'post',
                 url : '/posts/create',
                 data : newPostForm.serialize(),
                 success : function(data){
-                    console.log(data);
+                    console.log('here', data);
                     let newPost=newPostDOM(data.data.post);
                     $('#posts-list-container>ul').prepend(newPost);
                     deletePost($(' .delete-post-button', newPost));
                     displayNoty('success', data.message);
+                    commentUsingAjax.addCreateComment();
                 },
                 error : function(error){
                     console.log(error.responseText);
@@ -57,7 +61,7 @@
                             </small>
                         </p>
                         <div class="post-comments">
-                            <form action="/comments/create" method="post">
+                            <form action="/comments/create" method="post" class="new-comment-form">
                                 <input type="text" name="content" placeholder="Type Here to add comment...">
                                 <input type="hidden" name="post" value="${post._id}">
                                 <input type="submit" value="Add Comment">
@@ -93,7 +97,7 @@
         });
     }
 
-    // adding deletePost method to every delete button
+    // adding deletePost method to every delete post button already present
     $('.delete-post-button').each(function(){
         deletePost($(this));
     });

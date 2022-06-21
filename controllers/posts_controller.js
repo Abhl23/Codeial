@@ -9,6 +9,12 @@ module.exports.create=async function(req, res){
             user : req.user._id
         });
 
+        post=await Post.findById(post._id).populate({
+            path : 'user',
+            select : 'name'
+        });
+        console.log(post);
+
         if(req.xhr){
             return res.status(200).json({
                 data : {
@@ -18,9 +24,10 @@ module.exports.create=async function(req, res){
             });
         }
     
-        req.flash('success', 'Post Created!');
-        return res.redirect('back');
+        // req.flash('success', 'Post Created!');
+        // return res.redirect('back');
     }catch(err){
+        console.log(err);
         req.flash('error', err);
         return res.redirect('back');
     }
