@@ -15,7 +15,7 @@ module.exports.create=async function(req, res){
 
             // updating the post collections' document
             // will automatically insert the comment id in the comments array of post
-            post.comments.push(comment);
+            post.comments.unshift(comment);       // inserts comment id in the order from latest to oldest
             post.save();
 
             comment=await Comment.findById(comment._id)

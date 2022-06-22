@@ -16,6 +16,15 @@
                     timeout : 1500
                 }).show();        
             </script>`).attr('id', 'noty').appendTo('body');
+
+
+            // $('#noty').text(`new Noty({
+            //     theme : 'relax',
+            //     layout : 'topRight',
+            //     text : '${message}',
+            //     type : '${type}',
+            //     timeout : 1500
+            // }).show(); `);
     }
 
 
