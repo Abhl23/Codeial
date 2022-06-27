@@ -112,16 +112,10 @@ module.exports.resetPassword=async function(req, res){
 
     console.log(resetToken.isValid);
 
-    if(resetToken.isValid){
-        return res.render('reset_password', {
-            title : 'Codeial | Reset Password',
-            resetToken : resetToken
-        });
-    }
-    else{
-        return res.send('<h1>Reset password token invalid!</h1>');
-    }
-    
+    return res.render('reset_password', {
+        title : 'Codeial | Reset Password',
+        resetToken : resetToken
+    });
 };
 
 // update password
@@ -134,9 +128,7 @@ module.exports.updatePassword=async function(req, res){
     try{
         await User.findByIdAndUpdate(req.body.user_id, {password : req.body.password});
 
-        let resetToken=await ResetToken.findOne({user : req.body.user_id});
-        resetToken.isValid=false;
-        resetToken.save();
+        let resetToken=await ResetToken.findByIdAndUpdate(req.body.reset_token_id, {isValid : false});
 
         req.flash('success', 'Password changed successfully!');
         return res.redirect('/users/sign-in');
