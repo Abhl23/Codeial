@@ -27,4 +27,9 @@ router.get('/auth/google/callback', passport.authenticate(
 
 router.get('/sign-out', usersController.destroySession);
 
+router.get('/forgot-password', usersController.forgotPassword);
+router.post('/reset-link', usersController.resetLink);
+router.get('/reset-password', usersController.resetPassword);
+router.post('/update-password', usersController.updatePassword);
+
 module.exports=router;

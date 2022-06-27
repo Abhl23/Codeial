@@ -1,6 +1,11 @@
 const User=require('../models/user');
+const ResetToken=require('../models/reset_password_token');
 const fs=require('fs');
 const path=require('path');
+
+const crypto=require('crypto');
+
+const resetPasswordMailer=require('../mailers/reset_password_mailer');
 
 
 // lets keep this the same
@@ -64,6 +69,82 @@ module.exports.update=async function(req, res){
     // else{
     //     return res.status(401).send('Unauthorized');
     // }
+};
+
+// render the forgot password page
+module.exports.forgotPassword=function(req, res){
+    if(req.isAuthenticated()){
+        return res.redirect('/');
+    }
+
+    return res.render('forgot_password', {
+        title : 'Codeial | Forgot Password'
+    });
+};
+
+// create the reset password token
+module.exports.resetLink=async function(req, res){
+    try{
+        let user=await User.findOne({email : req.body.email});
+
+        let resetToken=await ResetToken.create({
+            user : user._id,
+            accessToken : crypto.randomBytes(20).toString('hex'),
+            isValid : true
+        });
+
+        resetToken=await ResetToken.findById(resetToken._id).populate('user', 'name email');
+
+        resetPasswordMailer.resetPassword(resetToken);
+
+        req.flash('success', 'Reset link sent!');
+        return res.redirect('/');
+    }catch(err){
+        console.log('Error in reset link action', err);
+        return res.redirect('back');
+    }
+};
+
+// render the reset password page
+module.exports.resetPassword=async function(req, res){
+
+    let resetToken=await ResetToken.findOne({accessToken : req.query.accessToken});
+
+    console.log(resetToken.isValid);
+
+    if(resetToken.isValid){
+        return res.render('reset_password', {
+            title : 'Codeial | Reset Password',
+            resetToken : resetToken
+        });
+    }
+    else{
+        return res.send('<h1>Reset password token invalid!</h1>');
+    }
+    
+};
+
+// update password
+module.exports.updatePassword=async function(req, res){
+    if(req.body.password!=req.body.confirm_password){
+        req.flash('error', 'Invalid confirm password!');
+        return res.redirect('back');
+    }
+
+    try{
+        await User.findByIdAndUpdate(req.body.user_id, {password : req.body.password});
+
+        let resetToken=await ResetToken.findOne({user : req.body.user_id});
+        resetToken.isValid=false;
+        resetToken.save();
+
+        req.flash('success', 'Password changed successfully!');
+        return res.redirect('/users/sign-in');
+    }catch(err){
+        req.flash('error', 'Password change unsuccessful!');
+        console.log('Error in changing password:', err);
+        return res.redirect('back');
+    }
 };
 
 // render the sign-in page
