@@ -12,7 +12,7 @@ let transporter=nodemailer.createTransport({
     secure : false,
     auth : {
         user : 'anothaonexo@gmail.com',
-        pass : 'zkunptztwiolhjic'
+        pass : ''
     }
 });
 
