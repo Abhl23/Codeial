@@ -7,10 +7,14 @@ module.exports.home=async function(req, res){
         let posts=await Post.find({})
         .sort('-createdAt')
         .populate('user')                   // populate the user and comments of each post
+        .populate('likes')                   
         .populate({
             path : 'comments',
             populate : {                    // further populating the user of every comment i.e Nested populating
                 path : 'user'
+            },
+            populate : {
+                path : 'likes'              // populating the likes of each comment
             }
         });
 

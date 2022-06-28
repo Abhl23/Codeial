@@ -44,6 +44,9 @@ var commentUsingAjax=(function(){
                         newComment=newCommentDOM(data.data.comment);
                         $(`#post-comments-${data.data.comment.post._id}`).prepend(newComment);
                         deleteComment($(' .delete-comment-button', newComment));
+
+                        likesUsingAjax.addLikeFunctionality($('.toggle-like-button', newComment));
+
                         displayNoty('success', data.message);
                     },
                     error : function(error){
@@ -66,6 +69,11 @@ var commentUsingAjax=(function(){
                             <small>
                                 ${comment.user.name}
                             </small>
+                            <span>
+                                <a class="toggle-like-button" data-likes="${comment.likes.length}" href="/likes/toggle/?id=${comment._id}&type=Comment">
+                                    ${comment.likes.length} likes
+                                </a>
+                            </span>
                         </p>
                     </li>`);
     }

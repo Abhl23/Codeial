@@ -8,5 +8,14 @@
         <small>
             <%= comment.user.name %>
         </small>
+        <span>
+            <% if(locals.user){ %>
+                <a class="toggle-like-button" data-likes="<%= comment.likes.length %>" href="/likes/toggle/?id=<%= comment._id %>&type=Comment">
+                    <%= comment.likes.length %> likes
+                </a>    
+            <% }else{ %>
+                <%= comment.likes.length %> likes    
+            <% } %>
+        </span>
     </p>
 </li>

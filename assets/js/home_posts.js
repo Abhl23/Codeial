@@ -44,6 +44,9 @@
                     let newPost=newPostDOM(data.data.post);
                     $('#posts-list-container>ul').prepend(newPost);
                     deletePost($(' .delete-post-button', newPost));     // to add the delete functionality to the newly formed post
+
+                    likesUsingAjax.addLikeFunctionality($(' .toggle-like-button', newPost));
+
                     displayNoty('success', data.message);
                     commentUsingAjax.addCreateComment();
                 },
@@ -68,6 +71,11 @@
                             <small>
                                 ${post.user.name}
                             </small>
+                            <span>
+                                <a class="toggle-like-button" data-likes="${post.likes.length}" href="/likes/toggle/?id=${post._id}&type=Post">
+                                    ${post.likes.length} likes
+                                </a>
+                            </span>
                         </p>
                         <div class="post-comments">
                             <form action="/comments/create" method="post" class="new-comment-form">
