@@ -43,7 +43,7 @@
                     console.log('here', data);
                     let newPost=newPostDOM(data.data.post);
                     $('#posts-list-container>ul').prepend(newPost);
-                    deletePost($(' .delete-post-button', newPost));
+                    deletePost($(' .delete-post-button', newPost));     // to add the delete functionality to the newly formed post
                     displayNoty('success', data.message);
                     commentUsingAjax.addCreateComment();
                 },
