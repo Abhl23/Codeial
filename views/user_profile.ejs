@@ -19,4 +19,13 @@
         <!-- else show only the profile info -->
         <p>Name: <%= user_profile.name %></p>
         <p>Email: <%= user_profile.email %></p>
+        <% if(areFriends){ %>
+                <a id="toggle-friend-button" data-user-id="<%= user_profile._id %>" href="/users/friendships/destroy/?id=<%= user_profile._id %>">Remove Friend</a>
+        <% }else{ %>
+                <a id="toggle-friend-button" data-user-id="<%= user_profile._id %>" href="/users/friendships/create/?id=<%= user_profile._id %>">Add Friend</a>        
+        <% } %>
+
+        <!-- data-user-id created so it can used when u change the links' href from remove friend to add friend or vice versa from the javascript -->
 <% } %>
+
+<script src="/js/user_profile.js"></script>

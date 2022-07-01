@@ -22,16 +22,39 @@
         </div>
     </section>
     
-    <section id="user-friends">
-        <h2>Friends</h2>
-        <% for(let u of all_users){ %>
-            <p>
-                <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-            </p>    
-        <% } %>
+    <section id="users-friends-container">
+        <div id="friends">
+            <h2>Friends</h2>
+            <% if(locals.user){ %>
+                 <% for(let friendship of signedInUser.friendships){ %>
+                    <% if(locals.user.name == friendship.from_user.name){ %>
+                        <p id="friend-<%= friendship.to_user._id %>">
+                            <a href="/users/profile/<%= friendship.to_user.id %>"><%= friendship.to_user.name %></a>
+                            <a class="remove-friend-button" data-friend-id="friend-<%= friendship.to_user._id %>" href="/users/friendships/destroy?id=<%= friendship.to_user._id %>">X</a>
+                        </p> 
+                    <% }else if(locals.user.name == friendship.to_user.name){ %>
+                        <p id="friend-<%= friendship.from_user._id %>">
+                            <a href="/users/profile/<%= friendship.from_user.id %>"><%= friendship.from_user.name %></a>
+                            <a class="remove-friend-button" data-friend-id="friend-<%= friendship.from_user._id %>" href="/users/friendships/destroy?id=<%= friendship.from_user._id %>">X</a>
+                        </p>    
+                    <% } %>    
+                <% } %>
+            <% }else{ %>
+                <h3>Sign in to view this info</h3>    
+            <% } %>
+        </div>
+        <div id="users">
+            <h2>Users</h2>
+            <% for(let u of all_users){ %>
+                <p>
+                    <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+                </p>    
+            <% } %>
+        </div>
     </section>    
 </div>
 
 <script src="/js/home_posts.js"></script>
 <script src="/js/home_comments.js"></script>
 <script src="/js/home_likes.js"></script>
+<script src="/js/home_friends.js"></script>

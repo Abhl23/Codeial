@@ -1,4 +1,5 @@
 const User=require('../models/user');
+const Friendship=require('../models/friendship');
 const ResetToken=require('../models/reset_password_token');
 const fs=require('fs');
 const path=require('path');
@@ -9,12 +10,30 @@ const resetPasswordMailer=require('../mailers/reset_password_mailer');
 
 
 // lets keep this the same
-module.exports.profile=function(req, res){
-    User.findById(req.params.id, function(err, user){
-        return res.render('user_profile', {
-            title : "User Profile",
-            user_profile : user
-        });
+module.exports.profile=async function(req, res){
+
+    var areFriends=false;
+
+    let check1=await Friendship.findOne({
+        from_user : req.user._id,
+        to_user : req.params.id
+    });
+
+    let check2=await Friendship.findOne({
+        form_user : req.params.id,
+        to_user : req.user._id
+    });
+
+    if(check1 || check2){
+        areFriends=true;
+    }
+
+    let user=await User.findById(req.params.id);
+    
+    return res.render('user_profile', {
+        title : "User Profile",
+        user_profile : user,
+        areFriends : areFriends
     });
 };
 

@@ -11,22 +11,40 @@ module.exports.home=async function(req, res){
         .populate({
             path : 'comments',
             populate : {                    // further populating the user of every comment i.e Nested populating
-                path : 'user'
+                path : 'user likes',
+                select : 'name email user'
             },
-            populate : {
-                path : 'likes'              // populating the likes of each comment
-            }
         });
 
-        
+        console.log('************',posts[0].comments[0]);
 
         let users=await User.find({});
 
+        if(req.isAuthenticated()){
+            let signedInUser=await User.findById(req.user._id)
+            .populate({
+                path : 'friendships',
+                populate : {
+                    path : 'from_user to_user',
+                    select : 'name'
+                }
+            });
+
+            
+            return res.render('home', {
+                title : 'Home',
+                posts : posts,
+                all_users : users,
+                signedInUser : signedInUser
+            });
+        }
+        
         return res.render('home', {
             title : 'Home',
             posts : posts,
-            all_users : users
+            all_users : users,
         });
+
     }catch(err){
         console.log('Error:', err);
         return;

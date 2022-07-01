@@ -32,4 +32,7 @@ router.post('/reset-link', usersController.resetLink);
 router.get('/reset-password', usersController.resetPassword);
 router.post('/update-password', usersController.updatePassword);
 
+
+router.use('/friendships', require('./friendships'));
+
 module.exports=router;
