@@ -12,7 +12,6 @@ module.exports.home=async function(req, res){
             path : 'comments',
             populate : {                    // further populating the user of every comment i.e Nested populating
                 path : 'user likes',
-                select : 'name email user'
             },
         });
 
