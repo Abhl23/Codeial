@@ -15,7 +15,7 @@ module.exports.home=async function(req, res){
             },
         });
 
-        console.log('************',posts[0].comments[0]);
+        // console.log('************',posts[0].comments[0]);
 
         let users=await User.find({});
 
