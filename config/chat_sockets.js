@@ -1,7 +1,7 @@
 module.exports.chatSockets=function(socketServer){
     let io=require('socket.io')(socketServer, {
         cors: {
-            origin: "http://localhost:8000",
+            origin: "http://localhost:8000"
           }
       });
 
@@ -11,5 +11,17 @@ module.exports.chatSockets=function(socketServer){
         socket.on('disconnect', function(){
             console.log('Socket disconnected!');
         });
+
+        // detecting a join_room event emitted by the client
+        socket.on('join_room', function(data){
+            console.log('Joining request received!', data);
+
+            // joining the user socket to the chatroom
+            socket.join(data.chatroom);
+
+            // emitting a user_joined event to all the users in the chatroom
+            io.in(data.chatroom).emit('user_joined', data);
+        });
+
     });
 };
