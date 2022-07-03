@@ -2,7 +2,7 @@
   position: fixed;
   bottom: 10px;
   right: 10px;
-  border: 1px dashed grey;
+  border: 1px double grey;
   height: 350px;
   width: 300px;
   background: white;
@@ -14,6 +14,8 @@
     height: 70%;
     background-color: white;
     overflow: auto; }
+    #user-chat-box #chat-messages-list li sub {
+      display: block; }
     #user-chat-box #chat-messages-list .other-message {
       text-align: left;
       padding: 5px; }
