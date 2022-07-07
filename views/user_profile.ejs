@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="/css/user_profile.css">
+<link rel="stylesheet" href="<%= assetPath('css/user_profile.css') %>">
+
 <h1>Codeial / <%= title %></h1>
 
 <img src="<%= user_profile.avatar %>" alt="<%= user_profile.name %>" width="100">
@@ -28,4 +29,4 @@
         <!-- data-user-id created so it can used when u change the links' href from remove friend to add friend or vice versa from the javascript -->
 <% } %>
 
-<script src="/js/user_profile.js"></script>
+<script src="<%= assetPath('js/user_profile.js') %>"></script>
